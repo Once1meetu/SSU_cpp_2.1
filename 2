@@ -1,0 +1,51 @@
+#include <iostream>
+#include <math.h>
+#include <iomanip>
+using namespace std;
+int main()
+{
+	double n,m,x,fr,fl,fp,ft,fs,a,Pi=3.14159265358979323846;
+	cout<<"write even n"<<endl;cin>>n;
+	for(int i=1;i<=n;i++)//counting fr
+	{
+		a=(Pi/2/n)*((exp(2*((-Pi/2)+(Pi/2/n)*i)))-2*sin((-Pi/2)+(Pi/2/n)*i));
+		fr+=a;
+	}
+		for(int i=0;i<=n-1;i++)//counting fl
+	{
+		a=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i));
+		fl+=a;
+	}
+		for(int i=0;i<=n-1;i++)//counting fp
+	{
+		a=(Pi/2/n)*(exp(2*(((-Pi/2)+(Pi/2/n)*i))+Pi/4/n)-2*sin(((-Pi/2)+(Pi/2/n)*i)+Pi/4/n));
+		fp+=a;
+	}
+		for(int i=1;i<=n-1;i++)//counting ft !there is a mistake in formula
+	{
+		a=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i));
+		ft+=a;
+	}
+		ft+=(Pi/4/n)*(exp(-Pi)-2*sin(-Pi/2)+1);
+	//counting fs
+	double k,j,b;
+	for(int i=1;i<=n-1;i+=2)
+	{
+		a=exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i);
+		k+=a;
+	}
+	for(int i=2;i<=n-2;i+=2)
+	{
+		b=exp(2*((-Pi/2)+(Pi/2/n)*(i-1)))-2*sin((-Pi/2)+(Pi/2/n)*(i-1));
+		j+=b;
+	}
+	fs=(Pi/6/n)*(exp(-Pi)-2*sin(-Pi/2)+1+4*k+2*j);
+	cout<<left<<setw(20)<<' '<<left<<setw(20)<<"правые"<<left<<setw(20)<<"левые"<<
+	left<<setw(20)<<"центральные"<<left<<setw(20)<<"трапеции"<<left<<setw(20)<<"Симпсона"<<endl<<
+	left<<setw(20)<<"интеграл"<<left<<setw(20)<<fr<<left<<setw(20)<<fl<<left<<setw(20)<<
+	fp<<left<<setw(20)<<ft<<left<<setw(20)<<fs<<endl<<left<<setw(20)<<"погрешность"<<left<<setw(20)<<
+	2.5-(exp(-Pi))/2-fr<<left<<setw(20)<<2.5-exp(-Pi)/2-fl<<
+	left<<setw(20)<<2.5-exp(-Pi)/2-fp<<left<<setw(20)<<2.5-exp(-Pi)/2-ft<<
+	left<<setw(20)<<2.5-exp(-Pi)/2-fs;
+	return 0;
+}

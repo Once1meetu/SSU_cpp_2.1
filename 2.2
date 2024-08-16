@@ -1,0 +1,87 @@
+ 
+#include <iostream>
+#include <math.h>
+#include <iomanip>
+using namespace std;
+int main()
+{
+	double n,m,x,fr,fl,fp,ft,fs,a,b,c,o,e,Pi=3.14159265358979323846;
+	int p;
+	cout<<"write even n"<<endl;cin>>m;
+	cout<<"enter occuracity"<<endl;cin>>e;
+	cout<<left<<setw(20)<<' '<<left<<setw(20)<<"integral"<<left<<setw(20)<<"occuracity"<<endl;
+
+	n=m/2;//counting fr
+	metka_fr:
+	p++;fr=0;n*=2;
+	for(int i=1;i<=n;i++)
+	{
+		a=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i));//beginning of cage
+		b=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+1)))-2*sin((-Pi/2)+(Pi/2/n)*(i+1)));//ending of cage
+		c=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+0.5)))-2*sin((-Pi/2)+(Pi/2/n)*(i+0.5)));//move in half step
+		o=(c-b)/(1-pow(2,p))/3;//counting occuracity
+		if (o<e)fr+=a;else goto metka_fr;
+	}
+	cout<<left<<setw(20)<<"right"<<left<<setw(20)<<fr<<left<<setw(20)<<o<<endl;
+
+	p=0;n=m/2;//counting fl
+	metka_fl:
+	p++,fl=0;n*=2;
+	for(int i=0;i<=n-1;i++)
+	{
+		a=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i));
+		b=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+1)))-2*sin((-Pi/2)+(Pi/2/n)*(i+1)));
+		c=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+0.5)))-2*sin((-Pi/2)+(Pi/2/n)*(i+0.5)));
+		o=(c-b)/(1-pow(2,p))/3;//counting occuracity
+		if (o<e)fl+=a;else goto metka_fl;
+	}
+	cout<<left<<setw(20)<<"left"<<left<<setw(20)<<fl<<left<<setw(20)<<o<<endl;
+
+	p=0;n=m/2;//counting fp
+	metka_fp:
+	p++,fp=0,n*=2;
+	for(int i=0;i<=n-1;i++)
+	{
+		a=(Pi/2/n)*(exp(2*(((-Pi/2)+(Pi/2/n)*i))+Pi/4/n)-2*sin(((-Pi/2)+(Pi/2/n)*i)+Pi/4/n));
+		b=(Pi/2/n)*(exp(2*(((-Pi/2)+(Pi/2/n)*(i+1)))+Pi/4/n)-2*sin(((-Pi/2)+(Pi/2/n)*(i+1))+Pi/4/n));
+		c=(Pi/2/n)*(exp(2*(((-Pi/2)+(Pi/2/n)*(i+0.5)))+Pi/4/n)-2*sin(((-Pi/2)+(Pi/2/n)*(i+0.5))+Pi/4/n));
+		o=(c-b)/(1-pow(2,p))/3;//counting occuracity
+		if (o<e)fp+=a;else goto metka_fp;
+	}
+	cout<<left<<setw(20)<<"central"<<left<<setw(20)<<fp<<left<<setw(20)<<o<<endl;
+
+	p=0;n=m/2;//counting ft
+	metka_ft:
+	p++,ft=0,n*=2;
+	for(int i=1;i<=n-1;i++)
+	{
+		a=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i));
+		b=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+1)))-2*sin((-Pi/2)+(Pi/2/n)*(i+1)));
+		c=(Pi/2/n)*(exp(2*((-Pi/2)+(Pi/2/n)*(i+0.5)))-2*sin((-Pi/2)+(Pi/2/n)*(i+0.5)));
+		o=(c-b)/(1-pow(2,p))/3;//counting occuracity
+		if (o<e)ft+=a;else goto metka_ft;
+	}
+	ft+=(Pi/4/n)*(exp(-Pi)-2*sin(-Pi/2)+1);
+	cout<<left<<setw(20)<<"trapeze"<<left<<setw(20)<<ft<<left<<setw(20)<<o<<endl;
+
+	p=0;n=m/2;//counting fs
+	metka_fs:
+	p++,fs=0,n*=2;
+	double k,j,d;
+	for(int i=1;i<=n-1;i+=2)
+	{
+		a=exp(2*((-Pi/2)+(Pi/2/n)*i))-2*sin((-Pi/2)+(Pi/2/n)*i);
+		b=exp(2*((-Pi/2)+(Pi/2/n)*(i+1)))-2*sin((-Pi/2)+(Pi/2/n)*(i+1));
+		c=exp(2*((-Pi/2)+(Pi/2/n)*(i+0.5)))-2*sin((-Pi/2)+(Pi/2/n)*(i+0.5));
+		o=(c-b)/(1-pow(2,p))/15;//counting occuracity
+		if (o<e)k+=a;else goto metka_fs;
+	}
+	for(int i=2;i<=n-2;i+=2)
+	{
+		d=exp(2*((-Pi/2)+(Pi/2/n)*(i-1)))-2*sin((-Pi/2)+(Pi/2/n)*(i-1));
+		j+=d;
+	}
+	fs=(Pi/6/n)*(exp(-Pi)-2*sin(-Pi/2)+1+4*k+2*j);
+	cout<<left<<setw(20)<<"Simpson"<<left<<setw(20)<<fs<<left<<setw(20)<<o<<endl;
+	return 0;
+}
